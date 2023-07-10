@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
+      - uses: npm/action-setup@v2
         with:
           version: latest
       - uses: actions/setup-node@v3
@@ -17,9 +17,9 @@ jobs:
           node-version: 18.x
       - uses: actions/cache@v2
         with:
-          path: "~/.pnpm-store"
-          key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
+          path: "~/.npm-store"
+          key: ${{ runner.os }}-node-${{ hashFiles('**/npm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm run ci
+      - run: npm install --frozen-lockfile
+      - run: npm run ci
