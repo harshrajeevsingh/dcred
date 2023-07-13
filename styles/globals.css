@@ -1,8 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,600;1,700;1,800&display=swap');
+
+
+* html {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body{
+  margin: 0;
+  font-family: "Merriweather Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.gradient-bg-one {
+  background-color:#0f0e13;
+  background-image: 
+    radial-gradient(at 0% 0%, rgb(26, 25, 33) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, rgb(56, 75, 133) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, rgb(114, 65, 39) 0, transparent 50%);
+}
+
+.gradient-bg-two {
+  background-color:#0f0e13;
+  background-image: 
+    radial-gradient(at 0% 0%, rgb(21, 16, 15) 0, transparent 50%), 
+    radial-gradient(at 50% 100%, rgb(65, 39, 89) 0, transparent 50%);
+}
+
+.gradient-bg-three {
+  background-color:#0f0e13;
+  background-image: 
+    radial-gradient(at 0% 100%, rgb(21, 16, 15) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, rgb(65, 39, 89) 0, transparent 50%);
+}
+
+.gradient-bg-four {
+  background-color:#0f0e13;
+  background-image: 
+    radial-gradient(at 0% 100%, rgb(26, 25, 33) 0, transparent 50%), 
+    radial-gradient(at 50% 100%, rgb(114, 65, 39) 0, transparent 50%);
+}
+
+.glass-look {
+  background: rgba( 32, 72, 115, 0.25 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 20px );
+  -webkit-backdrop-filter: blur( 20px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.glass-look-two {
+  background: rgba( 255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 16px );
+  -webkit-backdrop-filter: blur( 16px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+.nav-shadow{
+  box-shadow:
+  2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+  6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+  12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+  22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+  41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+  100px 100px 80px rgba(0, 0, 0, 0.07)
+;
+  backdrop-filter: blur(20px); 
+}
+.text-gradient {
+  background: #724127;
+background: radial-gradient(circle farthest-corner at top right, #724127 10%, #CFCFCF 100%);
+-webkit-background-clip: text;
+background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+.text-gradient-two {
+  background: #3B2114;
+  background: radial-gradient(circle farthest-corner at top right, #3B2114 0%, #EDEDED 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+
+}
+.clip {
+  -webkit-clip-path: circle(50% at 50% 50%);
+clip-path: circle(50% at 50% 50%);
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
+
+/* body{
+  font-family: 'Merriweather Sans', sans-serif;
+} */
+
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -24,4 +122,4 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-}
+} */

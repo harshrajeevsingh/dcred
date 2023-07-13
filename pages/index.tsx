@@ -1,10 +1,19 @@
 import Image from 'next/image'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+
+import Navbar from '../components/Navbar'
+import Hero from '../components/Hero'
+import About from '../components/About'
+import Footer from '../components/Footer'
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <ConnectButton/>
-      <h1>Hii</h1>
+    <main className="min-h-screen">
+      <div className='gradient-bg-one'>
+        <Navbar/>
+        <Hero/>
+      </div>
+      <About/>
+      <Footer/>
     </main>
   )
 }
