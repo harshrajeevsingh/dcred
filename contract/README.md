@@ -1,8 +1,5 @@
-# Sample Hardhat Project
-
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
-
-Try running some of the following tasks:
+### DCred contract is deployed to
+contract is deployed at  0x380B67C1CEcd0Da33EABD44Ef6CA37bCBbA4a4da
 
 ```shell
 npx hardhat help
