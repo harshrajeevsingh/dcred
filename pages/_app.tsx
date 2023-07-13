@@ -1,6 +1,7 @@
 import "@rainbow-me/rainbowkit/styles.css";
 import { AppProps } from "next/app";
 
+import "../styles/globals.css"
 import {
   wagmiConfig,
   WagmiConfig,
