@@ -8,12 +8,14 @@ import {
   RainbowKitProvider,
   chains,
 } from "../components/wagmi";
+import Navbar from "@/components/Navbar";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains}>
+      <Navbar/>
         <Component {...pageProps} />
         </RainbowKitProvider>
     </WagmiConfig>

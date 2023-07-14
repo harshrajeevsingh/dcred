@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <div className='gradient-bg-one'>
-        <Navbar/>
+        
         <Hero/>
       </div>
       <About/>
