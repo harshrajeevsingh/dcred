@@ -1,8 +1,35 @@
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useAccount, usePublicClient, useWalletClient } from "wagmi";
+import { Dcred_Address, Dcred_Abi } from "@/constants";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { parseEther } from "viem";
+
+interface AllProducts {
+  id : bigint;
+  ownerAddr : string;
+  pname : string;
+  desc : string;
+  price : bigint
+ }
+type myProd  = [BigInt]
 
 const Dashboard = () => {
+  const { address, isConnected } = useAccount();
+  const publicClient = usePublicClient();
+  const { data: walletClient } = useWalletClient();
+
   const [addProd, setAddProd] = useState<boolean>(false);
+
+  const [allProds, setAllProds] = useState<AllProducts[]>();
+  const [myProds, setMyProds] = useState<myProd>();
+  const [lists, setLists] = useState<{}>({
+    cashback : [],
+    spent : [],
+    bought : []
+  });
+
   const [data, setData] = useState<{}>({
     name: "",
     price: "",
@@ -18,12 +45,107 @@ const Dashboard = () => {
       };
     });
   }
-  console.log(data);
+
+  async function addProductToContract(val: any) {
+    try {
+      if (!val.name && !val.price && !val.desc) {
+        toast.error("Invalid Inputs");
+        return;
+      }
+      if (!isConnected) {
+        toast.error("Please connect your wallet");
+        return;
+      }
+
+      const { request } = await publicClient.simulateContract({
+        address: Dcred_Address,
+        abi: Dcred_Abi,
+        functionName: "addProduct",
+        account: address,
+        args: [val.name, val.desc, BigInt(val.price * 10**18)],
+      });
+
+      const tx = await walletClient?.writeContract(request);
+      console.log("Transaction Hash --->>>", tx);
+      toast("Product adding........");
+      if (!tx) return;
+      const transaction = await publicClient.waitForTransactionReceipt({
+        hash: tx,
+      });
+      console.log("Transaction --->>>", transaction);
+      toast.success("Product added successfully");
+
+      console.log(val);
+    } catch (err) {
+      console.log(err);
+      // toast.error(err.message);
+    }
+  }
+
+  // type MyProduct = [bigint]
+  
+  
+
+  const getMyProducts = async () => {
+    try {
+      const allData  = await publicClient.readContract({
+        address: Dcred_Address,
+        abi: Dcred_Abi,
+        functionName: "getAllProducts",
+        args: [],
+      });
+      const data = await publicClient.readContract({
+        address: Dcred_Address,
+        abi: Dcred_Abi,
+        functionName: "getMyListedProducts",
+        args: [address],
+      });
+      const boughtList = await publicClient.readContract({
+        address: Dcred_Address,
+        abi: Dcred_Abi,
+        functionName: "getMyBoughtList",
+        args: [address],
+      });
+      const cashbackList = await publicClient.readContract({
+        address: Dcred_Address,
+        abi: Dcred_Abi,
+        functionName: "getCashbackList",
+        args: [address],
+      });
+      const spendList = await publicClient.readContract({
+        address: Dcred_Address,
+        abi: Dcred_Abi,
+        functionName: "getSpendList",
+        args: [address],
+      });
+
+
+      if (!data && !allData && !boughtList && !cashbackList && !spendList) return;
+
+  
+      setAllProds(allData as AllProducts[])
+      setMyProds(data as myProd)
+      setLists({
+        cashback : cashbackList,
+        bought : boughtList,
+        spent : spendList
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(myProds);
+  console.log(allProds);
+  console.log(lists);
+  useEffect(()=>{
+    getMyProducts()
+  },[])
+
   return (
     <div
-      className={`bg-black min-h-[100vh]   w-full pt-36 text-white flex flex-col relative  items-start justify-start `}
+      className={`bg-stone-950  min-h-[100vh] gradient-bg-one  w-full pt-36 text-white flex flex-col relative  items-start justify-start `}
     >
-      
+      <ToastContainer />
       <div
         className={` w-full h-[100vh] absolute flex  items-center justify-center  transition-all duration-300 ease-linear  ${
           addProd ? "scale-100 bg-black/30  top-0 z-20 " : " flex scale-0"
@@ -68,7 +190,7 @@ const Dashboard = () => {
             />
           </div>
           <button
-            // onClick={() => addingPatientData(form)}
+            onClick={() => addProductToContract(data)}
             className="mt-17 m-8 rounded-md py-2 px-4 hover:bg-[#4d33f6] bg-[#5d33f6]"
           >
             Add Product
@@ -77,15 +199,25 @@ const Dashboard = () => {
       </div>
 
       <div className={`w-full h-full flex flex-col items-start px-36`}>
-      <button
-        className={` px-4 py-2 rounded-xl bg-[#4d33f6] ${
-          addProd ? "hidden" : "block"
-        }`}
-        onClick={() => setAddProd((prev) => !prev)}
-      >
-       Add Product
-      </button>
+        <button
+          className={` px-4 py-2 rounded-xl bg-[#4d33f6] ${
+            addProd ? "hidden" : "block"
+          }`}
+          onClick={() => setAddProd((prev) => !prev)}
+        >
+          Add Product
+        </button>
       </div>
+    
+    {myProds && allProds && myProds?.map((obj , idx)=> {
+     return( <div key={idx}>
+             <h1>{allProds[Number(obj)].pname}</h1>
+             <h1>{allProds[Number(obj)].desc}</h1>
+             <h1>{Number(allProds[Number(obj)].price) / 10**18}</h1>
+      </div>)
+    })}
+
+ 
     </div>
   );
 };

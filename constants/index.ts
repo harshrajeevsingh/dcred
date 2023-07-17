@@ -1,6 +1,6 @@
-export const address = "0x380B67C1CEcd0Da33EABD44Ef6CA37bCBbA4a4da"
+export const Dcred_Address = "0x3E24a375525F599876D6a24d18D26f8F389E561A"
 
-export const Abi = [
+export const Dcred_Abi = [
   {
     "inputs": [],
     "stateMutability": "nonpayable",
@@ -374,7 +374,7 @@ export const Abi = [
     ],
     "name": "mint",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
