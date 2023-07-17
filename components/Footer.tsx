@@ -18,7 +18,7 @@ const Footer =  () => {
         href="#"
         className="mt-8 inline-block rounded-full border border-[#3898ff] px-12 py-3 text-sm font-medium text-[#3898ff] hover:bg-[#3898ff] hover:text-white focus:outline-none focus:ring active:bg-[#3898ff]"
       >
-        Get Started
+        Products
       </a>
     </div>
 
