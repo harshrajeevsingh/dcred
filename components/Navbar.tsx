@@ -19,7 +19,7 @@ const Navbar = () => {
           className="scale-105"
         />
       </div>
-      <ul className="text-white hidden md:flex list-none flex-row justify-between items-center flex-initial">
+      <ul className="text-white  md:flex list-none flex-row justify-between items-center flex-initial">
         <Link href={"/"} className="mx-4 cursor-pointer">
           Home
         </Link>
