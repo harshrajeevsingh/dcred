@@ -11,7 +11,7 @@ const Footer =  () => {
       <p className="mx-auto mt-4 max-w-sm text-gray-300 ">
         Take a look at products offered by merchants on 
         our platform. Buy and get assured Rewards if you hold
-        our Dcred's NFT 
+        our Dcred&apos;s NFT 
       </p>
 
       <a
