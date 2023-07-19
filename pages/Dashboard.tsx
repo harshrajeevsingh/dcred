@@ -5,6 +5,7 @@ import { Dcred_Address, Dcred_Abi } from "@/constants";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { parseEther } from "viem";
+import { AreaChart, Area , LineChart, Line , BarChart, Bar, } from "recharts";
 
 interface AllProducts {
   id : bigint;
@@ -15,6 +16,11 @@ interface AllProducts {
  }
 type myProd  = [BigInt]
 
+interface Ilist{
+  cashback : {}[],
+  spent : {}[],
+  bought : {}[],
+}
 const Dashboard = () => {
   const { address, isConnected } = useAccount();
   const publicClient = usePublicClient();
@@ -24,12 +30,15 @@ const Dashboard = () => {
 
   const [allProds, setAllProds] = useState<AllProducts[]>();
   const [myProds, setMyProds] = useState<myProd>();
-  const [lists, setLists] = useState<{}>({
+  const [lists, setLists] = useState<Ilist>({
     cashback : [],
     spent : [],
     bought : []
   });
 
+  const cbList = useRef<[number]>(null!)
+
+  
   const [data, setData] = useState<{}>({
     name: "",
     price: "",
@@ -125,17 +134,46 @@ const Dashboard = () => {
   
       setAllProds(allData as AllProducts[])
       setMyProds(data as myProd)
+     
+
+      let areadata : {}[] = [] ;
+      let cbdata = cashbackList as [BigInt] ;
+
+      cbdata?.forEach(val => {
+        areadata.push({
+          uv : Number(val)
+        })
+      })
+      let boughtdata : {}[] = [] ;
+      let bdata = boughtList as [BigInt] ;
+
+      bdata?.forEach(val => {
+        boughtdata.push({
+          uv : Number(val) + 1
+        })
+      })
+
+      let sdata : {}[] = [] ;
+      let spdata = cashbackList as [BigInt] ;
+
+      spdata?.forEach(val => {
+        sdata.push({
+          uv : Number(val)
+        })
+      })
+    //   console.log(cbdata);
+    //  console.log(areadata);
       setLists({
-        cashback : cashbackList,
-        bought : boughtList,
-        spent : spendList
+        cashback : areadata as any,
+        bought : boughtdata,
+        spent : sdata
       })
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(myProds);
-  console.log(allProds);
+  // console.log(myProds);
+  // console.log(allProds);
   console.log(lists);
   useEffect(()=>{
     getMyProducts()
@@ -209,6 +247,23 @@ const Dashboard = () => {
         </button>
       </div>
     
+      <div className={`flex gap-20 mt-10 px-36 items-center justify-evenly `}>
+
+      <BarChart width={300} height={150} data={lists.bought}>
+          <Bar dataKey="uv" fill="#c77dff" />
+        </BarChart>
+ 
+     
+    <LineChart width={500} height={150} data={lists.cashback}>
+      <Line type="monotone" dataKey="uv" stroke="#c77dff" strokeWidth={2} />
+    </LineChart>
+          <h1>Cashback</h1>
+      </div>
+
+     <div className={`w-full px-36 flex items-center justify-center mt-20`}>
+    
+     </div>
+
     {myProds && allProds && myProds?.map((obj , idx)=> {
      return( <div key={idx}>
              <h1>{allProds[Number(obj)].pname}</h1>
@@ -216,8 +271,10 @@ const Dashboard = () => {
              <h1>{Number(allProds[Number(obj)].price) / 10**18}</h1>
       </div>)
     })}
+    
+  
 
- 
+    
     </div>
   );
 };
